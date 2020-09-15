@@ -1,9 +1,9 @@
-CREATE TABLE accounts(
+CREATE TABLE accounts (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
-    password TEXT,
+    password TEXT
 );
-CREATE TABLE messages(
+CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     account_id INTEGER REFERENCES accounts,
     topic TEXT,
@@ -11,7 +11,7 @@ CREATE TABLE messages(
     posted_at TIMESTAMP,
     posted_by TEXT
 );
-CREATE TABLE comments(
+CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
     message_id INTEGER REFERENCES messages,
     account_id INTEGER REFERENCES accounts,
@@ -19,7 +19,7 @@ CREATE TABLE comments(
     posted_at TIMESTAMP,
     posted_by TEXT
 );
-CREATE TABLE likes(
+CREATE TABLE likes (
     id SERIAL PRIMARY KEY,
     message_id INTEGER REFERENCES messages,
     comment_id INTEGER REFERENCES comments,
