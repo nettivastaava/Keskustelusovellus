@@ -33,9 +33,11 @@ method="POST">
 <p>
 {{ comment[5] }} commented:
 </p>
+<div class="p-3 mb-2 bg-light text-dark">
 <p>
 {{ comment[3] }}
 </p>
+</div>
 {% if session.username %}
 <form action="/message/{{ comment[0] }}/like"
 method="POST">
