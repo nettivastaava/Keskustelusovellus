@@ -6,10 +6,25 @@
 <div class="container">
 <div class="row">
 <div class="col-8">
-<div class="p-3 mb-2 bg-warning text-dark"><p><h1>TCA</h1></p>
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
 <b>Tsoha Chat App</b></div>
-
+{% if session.username == name %}
+<h1>Your profile</h1>
+<p></p>
+Users blocked:
+{% for blocked in list %}
+<p>{{ blocked[2] }}</p>
+{% endfor %}
+{% else %}
 <h1>{{ name }}</h1>
+{% endif %}
+{% if session.username %}
+{% if session.username != name %}
+<form action="/profiles/{{ name }}" method="POST">
+<p><input type="submit" value="Block user"></p>
+</form>
+{% endif %}
+{% endif %}
 
 <p></p>
 <p>{{ count }} messages posted</p>

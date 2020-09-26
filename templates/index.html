@@ -6,12 +6,12 @@
 <div class="container">
 <div class="row">
 <div class="col-8">
-<div class="p-3 mb-2 bg-warning text-dark"><p><h1>TCA</h1></p>
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
 <b>Tsoha Chat App</b></div>
 
 
 {% if session.username %}
-<p>Logged in as {{ session.username }}</p>
+<p>Logged in as <a href="/profiles/{{ session.username }}">{{ session.username }}<a></p>
 
 <form action="/logout" method="POST">
 <p><input type="submit" value="log out"></p>

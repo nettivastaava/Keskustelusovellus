@@ -6,15 +6,28 @@
 <div class="container">
 <div class="row">
 <div class="col-8">
-<div class="p-3 mb-2 bg-warning text-dark"><p><h1>TCA</h1></p>
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
 <b>Tsoha Chat App</b></div>
 
-<form action="/register" method="POST">
+<form action="/register" method="POST" onsubmit="return check(this)">
 <p>Username: <input type="text" name="username"></p>
 <p>Password: <input type="password" name="password"></p>
 <p>Create your account: <input type="submit" value="register"></p>
 </form>
 
+<script>
+function check(form) {
+    if (form.username.value.length < 2) {
+        alert("Your username is too short.");
+        return false;
+    }
+    if (form.username.value.length > 25) {
+        alert("Your username is too long.");
+        return false;
+    }
+    return true;
+}
+</script>
 </div>
 </div>
 </div>

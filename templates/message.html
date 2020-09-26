@@ -6,17 +6,19 @@
 <div class="container">
 <div class="row">
 <div class="col-8">
-<div class="p-3 mb-2 bg-warning text-dark"><p><h1>TCA</h1></p>
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
 <b>Tsoha Chat App</b></div>
 
-<h2>{{ message[2] }}</h2>
-<p>Posted by {{ message[5] }}</p>
-<p></p>
-{{ message[3] }}
 
-<p>Last modified: {{ message[4] }}</p>
+<h2>{{ message[2] }}</h2>
+<p>Posted by <a href="/profiles/{{ message[5] }}">{{ message[5] }}<a>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    {{ message[4] }}</p> 
+<p></p>
+<div class="p-3 mb-2 bg-light text-dark">
+{{ message[3] }}
+</div>
 
 {% if session.username %}
+{% if allow  %}
 <p>
 <form action="/message/{{ message[0] }}/like"
 method="POST">
@@ -24,14 +26,12 @@ method="POST">
 </form>
 </p>
 {% endif %}
+{% endif %}
 
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
+
 {% for comment in comments %}
 <p>
-{{ comment[5] }} commented:
+<a href="/profiles/{{ comment[5] }}">{{ comment[5] }}<a> commented:
 </p>
 <div class="p-3 mb-2 bg-light text-dark">
 <p>
@@ -48,14 +48,27 @@ method="POST">
 {% endfor %}
 
 {% if session.username %}
-
-<form action="/message/{{ message[0] }}" method="POST">
+{% if  allow  %}
+<form action="/message/{{ message[0] }}" method="POST" onsubmit="return check(this)">
 Comment: <br>
 <textarea name="content" rows="3" cols="40"></textarea>
 <br>
 <p><input type="submit" value="Comment!"></p>
 </form>
-
+{% endif %}
+<script>
+function check(form) {
+    if (form.content.value.length < 1) {
+        alert("Missing message body");
+        return false;
+    }
+    if (form.content.value.length > 5000) {
+        alert("Your message has too many characters.");
+        return false;
+    }
+    return true;
+}
+</script>
 {% else %}
 
 <a href="/login">Login<a> to post and comment.

@@ -5,10 +5,10 @@
 <div class="container">
 <div class="row">
 <div class="col-8">
-<div class="p-3 mb-2 bg-warning text-dark"><p><h1>TCA</h1></p>
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
 <b>Tsoha Chat App</b></div>
 
-<form action="/new" method="post">
+<form action="/new" method="post" onsubmit="return check(this)">
 Topic: <br>
 <input type="text" name="topic">
 <br>
@@ -17,6 +17,27 @@ Message: <br>
 <br>
 <input type="submit" value="Post">
 </form>
+
+<script>
+function check(form) {
+    if (form.topic.value.length > 50) {
+        alert("Your title has too many characters.");
+        return false;
+    }
+    if (form.content.value.length > 5000) {
+        alert("Your message has too many characters.");
+    }
+        if (form.topic.value.length < 1) {
+        alert("Missing message title");
+        return false;
+    }
+    if (form.content.value.length < 1) {
+        alert("Missing message content");
+        return false;
+    }
+    return true;
+}
+</script>
 
 </div>
 </div>
