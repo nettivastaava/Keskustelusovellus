@@ -28,10 +28,13 @@ def poster(id):
     return result.fetchone()
     
 def blockcheck(blocking):
-    blocked = session["username"]
-    sql = "SELECT * FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
-    result = db.session.execute(sql, {"blocking":blocking,"blocked":blocked}) 
-    test = result.fetchone()
+    blocked = accounts.username()
+    if blocked == 0:
+        return True
+    else:
+        sql = "SELECT * FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
+        result = db.session.execute(sql, {"blocking":blocking,"blocked":blocked}) 
+        test = result.fetchone()
     if test == None:
         return True
     else:

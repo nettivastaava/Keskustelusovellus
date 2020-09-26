@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, session
 import accounts, messages, comments, likes, profiles
 
 @app.route("/")
@@ -86,13 +86,18 @@ def like_message(id):
     else:
         return redirect("/message/"+str(id))
         
-@app.route("/profiles/<name>/", methods=["GET", "POST"])
+@app.route("/profiles/<name>/", methods=["GET", "POST", "DELETE"])
 def profile(name):
+    username = accounts.username()
     if request.method == "GET":
         if profiles.show_profile(name):
-            list = profiles.blocked_list()
-            count = profiles.messages_count(name)
-            return render_template("profile.html", name=name, count=count, list=list)
+            if username == name:
+                list = profiles.blocked_list()
+                count = profiles.messages_count(name)
+                return render_template("profile.html", name=name, count=count, list=list)
+            else:
+                count = profiles.messages_count(name)
+                return render_template("profile.html", name=name, count=count)
         else:
             return render_template("error.html", cause="Invalid profile.")   
     if request.method == "POST":

@@ -30,6 +30,9 @@ def register(username,password):
     except:
         return False
     return login(username,password)
+    
+def username():
+    return session.get("username", 0)
 
 def account_id():
     return session.get("account_id",0)
