@@ -38,12 +38,7 @@ method="POST">
 {{ comment[3] }}
 </p>
 </div>
-{% if session.username %}
-<form action="/message/{{ comment[0] }}/like"
-method="POST">
-<input type="submit" value="Like!">
-</form>
-{% endif %}
+
 
 {% endfor %}
 
