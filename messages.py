@@ -21,3 +21,19 @@ def mes_id(id):
     sql = "SELECT * FROM messages WHERE id=:id;"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
+    
+def poster(id):
+    sql = "SELECT posted_by FROM messages WHERE id=id;"
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()
+    
+def blockcheck(blocking):
+    blocked = session["username"]
+    sql = "SELECT * FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
+    result = db.session.execute(sql, {"blocking":blocking,"blocked":blocked}) 
+    test = result.fetchone()
+    if test == None:
+        return True
+    else:
+        return False
+    

@@ -64,7 +64,10 @@ def message(id):
         mes = messages.mes_id(id)
         list = comments.get_list(id)
         count = likes.get_likes_message(id)
-        return render_template("message.html", message=mes, comments=list, count=count)       
+        pip = messages.poster(id)
+        blocking = mes["posted_by"]
+        allow = messages.blockcheck(blocking)
+        return render_template("message.html", message=mes, comments=list, count=count, allow=allow)       
     if request.method == "POST":
         content = request.form["content"]
         if len(content) > 5000:
@@ -87,9 +90,22 @@ def like_message(id):
 def profile(name):
     if request.method == "GET":
         if profiles.show_profile(name):
+            list = profiles.blocked_list()
             count = profiles.messages_count(name)
-            return render_template("profile.html", name=name, count=count)
+            return render_template("profile.html", name=name, count=count, list=list)
         else:
             return render_template("error.html", cause="Invalid profile.")   
+    if request.method == "POST":
+        if profiles.block_user(name):
+            list = profiles.blocked_list()
+            count = profiles.messages_count(name)
+            return render_template("profile.html", name=name, count=count, list=list)
+        else:
+            list = profiles.blocked_list()
+            count = profiles.messages_count(name)
+            return render_template("profile.html", name=name, count=count, list=list)
+        
+            
+
 
 

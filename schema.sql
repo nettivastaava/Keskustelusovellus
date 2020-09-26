@@ -25,3 +25,9 @@ CREATE TABLE likes (
     comment_id INTEGER REFERENCES comments,
     account_id INTEGER REFERENCES accounts
 );
+
+CREATE TABLE blocks (
+    id SERIAL PRIMARY KEY,
+    blocking TEXT,
+    blocked TEXT
+);
