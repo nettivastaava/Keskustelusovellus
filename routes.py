@@ -86,7 +86,7 @@ def like_message(id):
     else:
         return redirect("/message/"+str(id))
         
-@app.route("/profiles/<name>/", methods=["GET", "POST", "DELETE"])
+@app.route("/profiles/<name>/", methods=["GET", "POST"])
 def profile(name):
     username = accounts.username()
     if request.method == "GET":
