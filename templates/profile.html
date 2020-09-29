@@ -13,7 +13,7 @@
 <p></p>
 Users blocked:
 {% for blocked in list %}
-<p>{{ blocked[2] }}</p>
+<p>{{ blocked[2] }} <a href="/profiles/{{ session.username }}/unblock/{{ blocked[0] }}">Unblock<a></p>
 {% endfor %}
 {% else %}
 <h1>{{ name }}</h1>

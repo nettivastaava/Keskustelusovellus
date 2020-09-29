@@ -31,7 +31,15 @@ def block_user(blocked):
     if test == None:
         sql = "INSERT INTO blocks (blocking, blocked) VALUES (:blocking, :blocked);"
         db.session.execute(sql, {"blocking":blocking, "blocked":blocked})
+        db.session.delete(sql)
         db.session.commit()
         return True
     else:
         return False
+        
+def unblock_user(id):
+    sql = "DELETE FROM blocks WHERE id=:id";
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+    return True
+

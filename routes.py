@@ -109,8 +109,25 @@ def profile(name):
             list = profiles.blocked_list()
             count = profiles.messages_count(name)
             return render_template("profile.html", name=name, count=count, list=list)
-        
-            
+
+@app.route("/profiles/<name>/unblock/<int:id>", methods=["GET", "POST", "DELETE"])            
+def unblock_profile(name, id):
+     username=accounts.username()
+     if request.method == "DELETE":
+         profiles.unblock_user(id)
+         list = profiles.blocked_list()
+         count = profiles.messages_count(name)
+         return redirect("/profiles/"+username)
+     if request.method == "GET":
+         if profiles.show_profile(name):
+             if username == name:
+                 profiles.unblock_user(id)
+                 list = profiles.blocked_list()
+                 count = profiles.messages_count(name)
+                 return render_template("profile.html", name=name, count=count, list=list)
+             
+             
+                 
 
 
 
