@@ -25,10 +25,16 @@ Users blocked:
 </form>
 {% endif %}
 {% endif %}
-
 <p></p>
-<p>{{ count }} messages posted</p>
-
+Messages posted:
+<p></p>
+{% for message in messages%}
+<div class="p-3 mb-2 bg-light text-dark">
+<p>
+<a href="/message/{{ message[0] }}">{{ message[2] }}<a>
+</p>
+</div>
+{% endfor %}
 </div>
 </div>
 </div>

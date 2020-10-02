@@ -10,13 +10,13 @@ def show_profile(username):
         return False
     else:
         return True
- 
-def messages_count(posted_by):       
-    sql = "SELECT COUNT(*) FROM messages WHERE posted_by=:posted_by;"
+        
+def fetch_messages(posted_by):
+    sql = "SELECT * FROM messages WHERE posted_by=:posted_by;"
     result =db.session.execute(sql, {"posted_by":posted_by})
-    count = result.fetchone()[0]  
-    return count      
+    return result.fetchall() 
     
+   
 def blocked_list():
     blocking = session["username"]
     sql = "SELECT * FROM blocks WHERE blocking=:blocking;"

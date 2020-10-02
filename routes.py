@@ -1,4 +1,5 @@
 from app import app
+from db import db
 from flask import render_template, redirect, request, session
 import accounts, messages, comments, likes, profiles
 
@@ -42,7 +43,20 @@ def login():
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
     accounts.logout()
-    return redirect("/")
+    return redirect("/")    
+    
+@app.route("/search")
+def search():
+    users=list()
+    return render_template("search.html", users=users)
+    
+@app.route("/result")
+def result():
+    query = request.args["query"]
+    sql = "SELECT * FROM accounts WHERE username LIKE :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    users = result.fetchall()
+    return render_template("search.html", users=users)
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -93,22 +107,22 @@ def profile(name):
         if profiles.show_profile(name):
             if username == name:
                 list = profiles.blocked_list()
-                count = profiles.messages_count(name)
-                return render_template("profile.html", name=name, count=count, list=list)
+                messages = profiles.fetch_messages(name)
+                return render_template("profile.html", name=name, messages=messages, list=list)
             else:
-                count = profiles.messages_count(name)
-                return render_template("profile.html", name=name, count=count)
+                messages = profiles.fetch_messages(name)
+                return render_template("profile.html", name=name, messages=messages)
         else:
             return render_template("error.html", cause="Invalid profile.")   
     if request.method == "POST":
         if profiles.block_user(name):
             list = profiles.blocked_list()
-            count = profiles.messages_count(name)
-            return render_template("profile.html", name=name, count=count, list=list)
+            messages = profiles.fetch_messages(name)
+            return render_template("profile.html", name=name, messages=messages, list=list)
         else:
             list = profiles.blocked_list()
-            count = profiles.messages_count(name)
-            return render_template("profile.html", name=name, count=count, list=list)
+            messages = profiles.fetch_messages(name)
+            return render_template("profile.html", name=name, messages=messages, list=list)
 
 @app.route("/profiles/<name>/unblock/<int:id>", methods=["GET", "POST", "DELETE"])            
 def unblock_profile(name, id):
