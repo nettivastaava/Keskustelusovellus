@@ -27,6 +27,12 @@ def poster(id):
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
     
+def delete_message(id):
+    sql = "DELETE FROM messages WHERE id=:id;"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+    return True
+    
 def blockcheck(blocking):
     blocked = accounts.username()
     if blocked == 0:

@@ -13,7 +13,7 @@ CREATE TABLE messages (
 );
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
-    message_id INTEGER REFERENCES messages,
+    message_id INTEGER REFERENCES messages ON DELETE CASCADE,
     account_id INTEGER REFERENCES accounts,
     content TEXT,
     posted_at TIMESTAMP,
@@ -21,7 +21,7 @@ CREATE TABLE comments (
 );
 CREATE TABLE likes (
     id SERIAL PRIMARY KEY,
-    message_id INTEGER REFERENCES messages,
+    message_id INTEGER REFERENCES messages  ON DELETE CASCADE,
     comment_id INTEGER REFERENCES comments,
     account_id INTEGER REFERENCES accounts
 );

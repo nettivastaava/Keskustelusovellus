@@ -91,6 +91,7 @@ def message(id):
             return redirect("/message/"+str(id))
         else:
             return render_template("error.html", cause="Your comment was not sent properly.")
+            
            
 @app.route("/message/<int:id>/like", methods=["GET", "POST"])
 def like_message(id):
@@ -123,6 +124,19 @@ def profile(name):
             list = profiles.blocked_list()
             messages = profiles.fetch_messages(name)
             return render_template("profile.html", name=name, messages=messages, list=list)
+            
+@app.route("/message/<int:id>/delete", methods=["GET", "DELETE"])
+def delete_message(id):
+    mes = messages.mes_id(id)
+    mes_id = mes[1]
+    acc_id = accounts.account_id()
+    if acc_id == mes_id:
+        messages.delete_message(id)
+        return redirect("/")      
+    else:
+        return redirect("/")    
+        
+
 
 @app.route("/profiles/<name>/unblock/<int:id>", methods=["GET", "POST", "DELETE"])            
 def unblock_profile(name, id):
