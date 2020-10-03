@@ -22,7 +22,6 @@ CREATE TABLE comments (
 CREATE TABLE likes (
     id SERIAL PRIMARY KEY,
     message_id INTEGER REFERENCES messages  ON DELETE CASCADE,
-    comment_id INTEGER REFERENCES comments,
     account_id INTEGER REFERENCES accounts
 );
 
