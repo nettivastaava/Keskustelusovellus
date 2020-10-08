@@ -1,0 +1,22 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<div class="container">
+<div class="row">
+<div class="col-8">
+<div class="p-3 mb-2 bg-warning text-dark"><p><a href="/" style="color: #000000; text-decoration: none;"><h1>TCA</h1></a></p>
+<b>Tsoha Chat App</b></div>
+<p></p>
+<h3>Messages related to {{ tag }}</h3>
+<p></p>
+
+{% for message in messages %}
+<div class="p-3 mb-2 bg-light text-dark">
+<p>
+<a href="/message/{{ message[0] }}">{{ message[1] }}<a>
+</p>
+</div>
+{% endfor %}
+

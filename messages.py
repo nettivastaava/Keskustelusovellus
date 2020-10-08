@@ -33,6 +33,18 @@ def delete_message(id):
     db.session.commit()
     return True
     
+def add_tag(content, message_id):
+    sql = "SELECT * FROM tags WHERE content=:content AND message_id=:message_id;"
+    result = db.session.execute(sql, {"content":content,"message_id":message_id}) 
+    like = result.fetchone()
+    if like == None:
+        sql = "INSERT INTO tags (content, message_id) VALUES (:content, :message_id);"
+        db.session.execute(sql, {"content":content, "message_id":message_id})
+        db.session.commit()
+        return True
+    else:
+        return False
+    
 def blockcheck(blocking):
     blocked = accounts.username()
     if blocked == 0:

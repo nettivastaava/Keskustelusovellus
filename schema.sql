@@ -6,10 +6,15 @@ CREATE TABLE accounts (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     account_id INTEGER REFERENCES accounts,
-    topic TEXT,
+    topic TEXT UNIQUE,
     content TEXT,
     posted_at TIMESTAMP,
     posted_by TEXT
+);
+CREATE TABLE tags (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    message_id INTEGER REFERENCES messages ON DELETE CASCADE
 );
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
@@ -24,7 +29,6 @@ CREATE TABLE likes (
     message_id INTEGER REFERENCES messages  ON DELETE CASCADE,
     account_id INTEGER REFERENCES accounts
 );
-
 CREATE TABLE blocks (
     id SERIAL PRIMARY KEY,
     blocking TEXT,

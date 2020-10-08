@@ -2,6 +2,7 @@ from app import app
 from db import db
 from flask import render_template, redirect, request, session
 import accounts, messages, comments, likes, profiles
+import re
 
 @app.route("/")
 def index():
@@ -50,10 +51,26 @@ def search():
     users=list()
     return render_template("search.html", users=users)
     
+@app.route("/tags/<content>")
+def messages_by_tag(content):
+    tag=content
+    sql = "SELECT m.id, m.topic FROM messages m JOIN tags t ON t.message_id=m.id WHERE t.content=:content;"
+    result = db.session.execute(sql , {"content":content})
+    messages = result.fetchall()
+    return render_template("messagelist.html", messages=messages, tag=tag)
+        
+@app.route("/search/tags")
+def tags():
+    tags = list()
+    sql = "SELECT DISTINCT content FROM tags ORDER BY content;"
+    result = db.session.execute(sql)
+    tags = result.fetchall()
+    return render_template("searchtags.html", tags=tags)
+    
 @app.route("/result")
 def result():
     query = request.args["query"]
-    sql = "SELECT * FROM accounts WHERE username LIKE :query"
+    sql = "SELECT username FROM accounts WHERE username LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     users = result.fetchall()
     return render_template("search.html", users=users)
@@ -67,7 +84,7 @@ def register():
         password = request.form["password"]
         if len(username) > 25:
             return render_template("error.html", cause="Registration failed: Invalid username.")
-        if accounts.register(username,password):
+        if re.match("^[A-Za-z0-9_-]*$", username) and accounts.register(username,password):
             return redirect("/")
         else:
             return render_template("error.html", cause="Registration failed.")
@@ -78,7 +95,6 @@ def message(id):
         mes = messages.mes_id(id)
         list = comments.get_list(id)
         count = likes.get_likes_message(id)
-        pip = messages.poster(id)
         blocking = mes["posted_by"]
         allow = messages.blockcheck(blocking)
         return render_template("message.html", message=mes, comments=list, count=count, allow=allow)       
@@ -91,12 +107,23 @@ def message(id):
             return redirect("/message/"+str(id))
         else:
             return render_template("error.html", cause="Your comment was not sent properly.")
-            
-           
+                       
 @app.route("/message/<int:id>/like", methods=["GET", "POST"])
 def like_message(id):
     mes = messages.mes_id(id)
     if likes.like_message(id):
+        return redirect("/message/"+str(id))
+    else:
+        return redirect("/message/"+str(id))
+        
+@app.route("/message/<int:id>/tag", methods=["GET", "POST"])
+def tag(id):
+    content = request.form["content"].lower()
+    mes = messages.mes_id(id)
+    mes_id = mes[1]
+    acc_id = accounts.account_id()
+    if acc_id == mes_id:
+        messages.add_tag(content, id)
         return redirect("/message/"+str(id))
     else:
         return redirect("/message/"+str(id))
@@ -136,8 +163,6 @@ def delete_message(id):
     else:
         return redirect("/")    
         
-
-
 @app.route("/profiles/<name>/unblock/<int:id>", methods=["GET", "POST", "DELETE"])            
 def unblock_profile(name, id):
      username=accounts.username()
@@ -145,9 +170,7 @@ def unblock_profile(name, id):
          if profiles.show_profile(name):
              if username == name:
                  profiles.unblock_user(id)
-                 list = profiles.blocked_list()
-                 messages = profiles.fetch_messages(name)
-                 return render_template("profile.html", messages=messages, name=name, list=list)
+                 return redirect("/profiles/"+str(name))
              
              
                  
