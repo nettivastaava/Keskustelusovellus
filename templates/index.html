@@ -17,17 +17,35 @@
 <p><input type="submit" value="log out"></p>
 </form>
 <p></p>
-<a href="/search">Search users<a>
-<p></p>
-<a href="/new">Start a new conversation<a>
+ 
+<ul>
+  <li>
+    <a href="/new"><b>Start a new conversation</b></a>
+  </li>
+  <li>
+    <a href="/search"><b>Search users</b></a>
+  </li>
+  <li>
+    <a href="/search/tags"><b>Search messages</b></a>
+  </li>
+</ul>
+
 
 {% else %}
 
 <a href="/login">Login<a> to post and comment.
 <p></p>
-<a href="/search">Search users<a>
-<p></p>
+<ul>
+  <li>
+    <a href="/search"><b>Search users</b></a>
+  </li>
+  <li>
+    <a href="/search/tags"><b>Search messages</b></a>
+  </li>
+</ul>
+
 {% endif %}
+<p></p>
 <h2>Discussions</h2>
 
 {% for message in messages %}

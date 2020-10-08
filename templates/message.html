@@ -11,8 +11,8 @@
 
 
 <h2>{{ message[2] }}</h2>
-<p>Posted by <a href="/profiles/{{ message[5] }}">{{ message[5] }}<a>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    {{ message[4] }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {% if session.username == message[5] %}
-<a href="/message/{{ message[0] }}/delete">Delete this message<a>
+<p>Posted by <a href="/profiles/{{ message[5] }}">{{ message[5] }}<a> &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    {{ message[4] }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {% if session.username == message[5] %}
+<a href="/message/{{ message[0] }}/delete">Delete this message<a>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <form action="/message/{{ message[0] }}/tag" method="POST">Add tags for your message <input type="text" name="content"><input type="submit" value="Add"></form>
 {% endif %}  </p> 
 <p></p>
 <div class="p-3 mb-2 bg-light text-dark">

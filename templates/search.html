@@ -17,7 +17,7 @@ Find by username: <input type="text" name="query">
 {% for user in users %}
 <div class="p-3 mb-2 bg-light text-dark">
 <p>
-<a href="/profiles/{{ user[1] }}">{{ user[1] }}<a>
+<a href="/profiles/{{ user[0] }}">{{ user[0] }}<a>
 </p>
 </div>
 {% endfor %}

@@ -12,7 +12,7 @@ def show_profile(username):
         return True
         
 def fetch_messages(posted_by):
-    sql = "SELECT * FROM messages WHERE posted_by=:posted_by;"
+    sql = "SELECT id, topic FROM messages WHERE posted_by=:posted_by;"
     result =db.session.execute(sql, {"posted_by":posted_by})
     return result.fetchall() 
     
