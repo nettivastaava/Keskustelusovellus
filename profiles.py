@@ -3,7 +3,7 @@ from flask import render_template, redirect, request, session
 import accounts, messages, comments, likes
 
 def show_profile(username):
-    sql = "SELECT * FROM accounts WHERE username=:username;"
+    sql = "SELECT id FROM accounts WHERE username=:username;"
     result = db.session.execute(sql, {"username":username}) 
     profile = result.fetchone()
     if profile == None:
@@ -19,13 +19,13 @@ def fetch_messages(posted_by):
    
 def blocked_list():
     blocking = session["username"]
-    sql = "SELECT * FROM blocks WHERE blocking=:blocking;"
+    sql = "SELECT id, blocked FROM blocks WHERE blocking=:blocking;"
     result = db.session.execute(sql, {"blocking":blocking})
     return result.fetchall() 
     
 def block_user(blocked):    
     blocking = session["username"]
-    sql = "SELECT * FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
+    sql = "SELECT id FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
     result = db.session.execute(sql, {"blocking":blocking,"blocked":blocked}) 
     test = result.fetchone()
     if test == None:

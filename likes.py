@@ -6,7 +6,7 @@ def like_message(message_id):
     if account_id == 0:
         return False
     else:
-        sql = "SELECT * FROM likes WHERE message_id=:message_id AND account_id=:account_id;"
+        sql = "SELECT id FROM likes WHERE message_id=:message_id AND account_id=:account_id;"
         result = db.session.execute(sql, {"message_id":message_id,"account_id":account_id}) 
         like = result.fetchone()
         if like == None:
@@ -34,7 +34,7 @@ def like_comment(comment_id):
     if account_id == 0:
         return False
     else:
-        sql = "SELECT * FROM likes WHERE comment_id=:comment_id AND account_id=:account_id;"
+        sql = "SELECT id FROM likes WHERE comment_id=:comment_id AND account_id=:account_id;"
         result = db.session.execute(sql, {"comment_id":comment_id,"account_id":account_id}) 
         like = result.fetchone()
         if like == None:

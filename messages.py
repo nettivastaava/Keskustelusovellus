@@ -34,10 +34,10 @@ def delete_message(id):
     return True
     
 def add_tag(content, message_id):
-    sql = "SELECT * FROM tags WHERE content=:content AND message_id=:message_id;"
+    sql = "SELECT id FROM tags WHERE content=:content AND message_id=:message_id;"
     result = db.session.execute(sql, {"content":content,"message_id":message_id}) 
-    like = result.fetchone()
-    if like == None:
+    tag = result.fetchone()
+    if tag == None:
         sql = "INSERT INTO tags (content, message_id) VALUES (:content, :message_id);"
         db.session.execute(sql, {"content":content, "message_id":message_id})
         db.session.commit()
@@ -50,7 +50,7 @@ def blockcheck(blocking):
     if blocked == 0:
         return True
     else:
-        sql = "SELECT * FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
+        sql = "SELECT id FROM blocks WHERE blocking=:blocking AND blocked=:blocked;"
         result = db.session.execute(sql, {"blocking":blocking,"blocked":blocked}) 
         test = result.fetchone()
     if test == None:
