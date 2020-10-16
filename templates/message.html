@@ -33,7 +33,7 @@ method="POST">
 
 {% for comment in comments %}
 <p>
-<a href="/profiles/{{ comment[5] }}">{{ comment[5] }}<a> commented:
+<a href="/profiles/{{ comment[5] }}">{{ comment[5] }}<a> commented: &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {% if session.username == comment[5] %} <a href="/comment/{{ comment[0] }}/delete">delete comment<a> {% endif %}
 </p>
 <div class="p-3 mb-2 bg-light text-dark">
 <p>

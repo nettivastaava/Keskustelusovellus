@@ -17,3 +17,14 @@ def get_list(message_id):
     sql = "SELECT * FROM comments WHERE message_id=:message_id;"
     result = db.session.execute(sql, {"message_id":message_id})
     return result.fetchall()
+    
+def delete_comment(id):
+    sql = "DELETE FROM comments WHERE id=:id;"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+    return True
+    
+def comment_id(id):
+    sql = "SELECT * FROM comments WHERE id=:id;"
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()

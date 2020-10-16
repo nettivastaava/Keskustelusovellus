@@ -161,7 +161,19 @@ def delete_message(id):
         messages.delete_message(id)
         return redirect("/")      
     else:
-        return redirect("/")    
+        return redirect("/")
+        
+@app.route("/comment/<int:id>/delete", methods=["GET", "DELETE"])
+def delete_comment(id):
+    comment = comments.comment_id(id)
+    commented_by = comment[2]
+    mes_id = comment[1]
+    acc_id = accounts.account_id()
+    if acc_id == commented_by:
+        comments.delete_comment(id)
+        return redirect("/message/"+str(mes_id))      
+    else:
+        return redirect("/message/"+str(mes_id))      
         
 @app.route("/profiles/<name>/unblock/<int:id>", methods=["GET", "POST", "DELETE"])            
 def unblock_profile(name, id):
